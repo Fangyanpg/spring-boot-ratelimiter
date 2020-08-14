@@ -3,9 +3,11 @@ package com.fangyanpg.ratelimiter.lock;
 import com.fangyanpg.ratelimiter.annotation.RateLimiter;
 import com.fangyanpg.ratelimiter.constants.LimitMode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
@@ -18,7 +20,7 @@ import java.util.Map;
  */
 public class RedisRateLimiter {
 
-    private static Map<LimitMode, RedisScript<String>> scriptMap;
+    private static Map<LimitMode, DefaultRedisScript<String>> scriptMap;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
@@ -33,8 +35,12 @@ public class RedisRateLimiter {
     @PostConstruct
     public void scriptInit(){
         scriptMap = new HashMap<>();
-        scriptMap.put(LimitMode.COUNT, new DefaultRedisScript<>("local count = tonumber(redis.call('incr', KEYS[1])) local ttl = redis.call('ttl', KEYS[1]) if(count)==1 then redis.call('expire', KEYS[1], tonumber(ARGV[2])) elseif ttl==-1 then redis.call('expire', KEYS[1], tonumber(ARGV[2])) end if(count>tonumber(ARGV[1])) then return 'false' end return 'true'", String.class));
-        scriptMap.put(LimitMode.TOKEN_BUCKET, new DefaultRedisScript<>("22", String.class));
+        DefaultRedisScript<String> count = new DefaultRedisScript<>();
+        count.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/count.lua")));
+        scriptMap.put(LimitMode.COUNT, count);
+        DefaultRedisScript<String> bucket = new DefaultRedisScript<>();
+        count.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/token_bucket.lua")));
+        scriptMap.put(LimitMode.TOKEN_BUCKET, bucket);
     }
 
 }
