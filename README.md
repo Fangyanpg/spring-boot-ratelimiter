@@ -4,6 +4,7 @@
 目前仅支持计数法限流
 
 项目里配置好RedisTemplate
+
 直接引入依赖，方法上使用 @RateLimiter 注解即可。
     
     <!-- https://mvnrepository.com/artifact/com.github.fangyanpg/spring-boot-ratelimiter -->
