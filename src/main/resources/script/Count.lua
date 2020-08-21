@@ -1,4 +1,3 @@
---- 计数
 local count = tonumber(redis.call('incr', KEYS[1]))
 local ttl = redis.call('ttl', KEYS[1])
 if (count) == 1

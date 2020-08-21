@@ -37,9 +37,11 @@ public class RedisRateLimiter {
         scriptMap = new HashMap<>();
         DefaultRedisScript<String> count = new DefaultRedisScript<>();
         count.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/Count.lua")));
+        count.setResultType(String.class);
         scriptMap.put(LimitMode.COUNT, count);
         DefaultRedisScript<String> bucket = new DefaultRedisScript<>();
         bucket.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/TokenBucket.lua")));
+        count.setResultType(String.class);
         scriptMap.put(LimitMode.TOKEN_BUCKET, bucket);
     }
 

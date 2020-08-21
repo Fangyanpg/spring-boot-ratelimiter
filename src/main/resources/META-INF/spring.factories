@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-RateLimitConfig
+com.fangyanpg.ratelimiter.config.RateLimitConfig
