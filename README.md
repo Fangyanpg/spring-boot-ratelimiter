@@ -1,9 +1,11 @@
 # spring-boot-ratelimiter
 分布式锁、请求限流
 
-目前仅支持计数法限流
+目前支持计数法与令牌桶限流
 
-项目里配置好RedisTemplate
+###快速开始
+
+项目里配置好 RedisTemplate
 
 直接引入依赖，方法上使用 @RateLimiter 注解即可。
     
@@ -14,5 +16,6 @@
         <version>0.0.2-RELEASE</version>
     </dependency>
 
-注意：超过限流配置会抛出 RateLimiterException 异常，请自行处理。
+**注意**：超过限流配置值会抛出 RateLimiterException 异常，请自行处理。
 
+若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
