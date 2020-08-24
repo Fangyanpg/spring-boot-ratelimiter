@@ -5,7 +5,9 @@ package com.fangyanpg.ratelimiter.constants;
  * @since 2020/7/23
  */
 public enum LimitType {
+
     IP,
+
     GLOBAL
     ;
 }

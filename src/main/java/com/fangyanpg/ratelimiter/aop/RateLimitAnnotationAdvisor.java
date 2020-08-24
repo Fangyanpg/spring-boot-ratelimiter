@@ -16,9 +16,9 @@ import org.springframework.beans.factory.BeanFactoryAware;
  */
 public class RateLimitAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
-    private Advice advice;
+    private final Advice advice;
 
-    private Pointcut pointcut;
+    private final Pointcut pointcut;
 
     public RateLimitAnnotationAdvisor(@NonNull RateLimitInterceptor lockInterceptor) {
         this.advice = lockInterceptor;

@@ -14,4 +14,5 @@
         <version>0.0.2-RELEASE</version>
     </dependency>
 
+注意：超过限流配置会抛出 RateLimiterException 异常，请自行处理。
 

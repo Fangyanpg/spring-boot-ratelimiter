@@ -3,15 +3,13 @@ package com.fangyanpg.ratelimiter.aop;
 import com.fangyanpg.ratelimiter.annotation.RateLimiter;
 import com.fangyanpg.ratelimiter.constants.LimitType;
 import com.fangyanpg.ratelimiter.exception.RateLimiterException;
-import com.fangyanpg.ratelimiter.lock.RedisRateLimiter;
+import com.fangyanpg.ratelimiter.limit.RedisRateLimiter;
 import com.fangyanpg.ratelimiter.utils.WebUtils;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 
 /**
  * @author fangyanpeng
