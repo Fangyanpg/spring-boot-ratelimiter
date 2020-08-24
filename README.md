@@ -18,4 +18,5 @@
 
 **注意**：超过限流配置值会抛出 RateLimiterException 异常，请自行处理。
 
-若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
+
+ps:若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
