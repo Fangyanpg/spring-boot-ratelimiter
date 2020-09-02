@@ -2,6 +2,7 @@ package com.fangyanpg.ratelimiter.config;
 
 import com.fangyanpg.ratelimiter.aop.RateLimitAnnotationAdvisor;
 import com.fangyanpg.ratelimiter.aop.RateLimitInterceptor;
+import com.fangyanpg.ratelimiter.limit.LimitModeExecutor;
 import com.fangyanpg.ratelimiter.limit.RedisRateLimiter;
 import com.fangyanpg.ratelimiter.limit.mode.CountLimitMode;
 import com.fangyanpg.ratelimiter.limit.mode.TokenBucketLimitMode;
@@ -10,8 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author fangyanpeng
@@ -23,8 +22,8 @@ public class RateLimitConfig {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnClass(RedisTemplate.class)
-    public RedisRateLimiter redisRateLimiter(){
-        return new RedisRateLimiter();
+    public RedisRateLimiter redisRateLimiter(RedisTemplate<String, String> redisTemplate, LimitModeExecutor limitModeExecutor){
+        return new RedisRateLimiter(redisTemplate, limitModeExecutor);
     }
 
     @Bean

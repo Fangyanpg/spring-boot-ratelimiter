@@ -1,6 +1,8 @@
 package com.fangyanpg.ratelimiter.limit;
 
 import com.fangyanpg.ratelimiter.annotation.RateLimiter;
+import com.fangyanpg.ratelimiter.constants.LimitMode;
+import com.fangyanpg.ratelimiter.constants.LimitType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -12,14 +14,22 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisRateLimiter {
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
-    @Autowired
-    private LimitModeExecutor limitModeExecutor;
+    private final LimitModeExecutor limitModeExecutor;
+
+    public RedisRateLimiter(RedisTemplate<String, String> redisTemplate, LimitModeExecutor limitModeExecutor) {
+        this.redisTemplate = redisTemplate;
+        this.limitModeExecutor = limitModeExecutor;
+    }
 
     public boolean acquire(String key, RateLimiter rateLimiter){
         return Boolean.parseBoolean(limitModeExecutor.execute(redisTemplate, key, rateLimiter));
+    }
+
+    public void release(String key, RateLimiter rateLimiter){
+        if(rateLimiter.mode().equals(LimitMode.LOCK))
+            redisTemplate.delete(key);
     }
 
     public static void main(String[] args) throws InterruptedException {

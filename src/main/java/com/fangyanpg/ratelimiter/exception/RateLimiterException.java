@@ -14,7 +14,7 @@ public class RateLimiterException extends AccessControlException {
 
     public RateLimiterException(String s) {
         super(s);
-        log.warn("超出限流配置: {}", s);
+        log.warn("限流异常: {}", s);
     }
 
     public RateLimiterException(String s, Permission p) {

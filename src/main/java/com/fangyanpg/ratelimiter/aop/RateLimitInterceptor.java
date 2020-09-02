@@ -36,10 +36,13 @@ public class RateLimitInterceptor implements MethodInterceptor {
         }
         rateKey.append(method.getName());
         String key = rateKey.toString();
+        Object proceed;
         if(redisRateLimiter.acquire(key, rateLimiter)){
-            return invocation.proceed();
+            proceed = invocation.proceed();
         }else{
             throw new RateLimiterException(key);
         }
+        redisRateLimiter.release(key, rateLimiter);
+        return proceed;
     }
 }

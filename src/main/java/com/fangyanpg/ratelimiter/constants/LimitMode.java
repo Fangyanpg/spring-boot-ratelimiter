@@ -9,4 +9,6 @@ public interface LimitMode {
     String COUNT = "COUNT";
 
     String TOKEN_BUCKET = "TOKEN_BUCKET";
+
+    String LOCK = "LOCK";
 }
