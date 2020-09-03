@@ -13,7 +13,7 @@
     <dependency>
         <groupId>com.github.fangyanpg</groupId>
         <artifactId>spring-boot-ratelimiter</artifactId>
-        <version>0.0.2-RELEASE</version>
+        <version>0.1.0-RELEASE</version>
     </dependency>
     
 分布式锁用例：
