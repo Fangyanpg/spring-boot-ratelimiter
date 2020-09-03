@@ -15,7 +15,17 @@
         <artifactId>spring-boot-ratelimiter</artifactId>
         <version>0.0.2-RELEASE</version>
     </dependency>
+    
+分布式锁用例：
 
+    @RateLimiter(mode = LimitMode.LOCK)
+    public void tryLock(){
+        // 业务逻辑 start
+        int count = selectCount();
+        count = 1;
+        setCount(count);
+        // 业务逻辑 end
+    }
 **注意**：超过限流配置值会抛出 RateLimiterException 异常，请自行处理。
 
 
