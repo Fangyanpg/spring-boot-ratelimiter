@@ -20,4 +20,6 @@ public @interface RateLimiter {
 
     String prefix() default "rateLimiter:";
 
+    int timeout() default 30;
+
 }

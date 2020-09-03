@@ -1,6 +1,7 @@
 package com.fangyanpg.ratelimiter.aop;
 
 import com.fangyanpg.ratelimiter.annotation.RateLimiter;
+import com.fangyanpg.ratelimiter.constants.LimitMode;
 import com.fangyanpg.ratelimiter.constants.LimitType;
 import com.fangyanpg.ratelimiter.exception.RateLimiterException;
 import com.fangyanpg.ratelimiter.limit.RedisRateLimiter;
@@ -30,7 +31,7 @@ public class RateLimitInterceptor implements MethodInterceptor {
         Method method = invocation.getMethod();
         //Parameter[] parameters = method.getParameters();
         StringBuilder rateKey = new StringBuilder(rateLimiter.prefix());
-        if(LimitType.IP.equals(rateLimiter.type())){
+        if(LimitType.IP.equals(rateLimiter.type()) && !LimitMode.LOCK.equals(rateLimiter.mode())){
             String ip = WebUtils.getIP();
             rateKey.append(ip).append(":");
         }
