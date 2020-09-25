@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.fangyanpg.ratelimiter.config.RateLimitConfig, \
-com.fangyanpg.ratelimiter.limit.LimitModeExecutor
+com.fangyanpg.ratelimiter.limit.LimitModeExecutor, \
+com.fangyanpg.ratelimiter.limit.FallbackHandler

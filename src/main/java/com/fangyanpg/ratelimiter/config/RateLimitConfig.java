@@ -2,6 +2,7 @@ package com.fangyanpg.ratelimiter.config;
 
 import com.fangyanpg.ratelimiter.aop.RateLimitAnnotationAdvisor;
 import com.fangyanpg.ratelimiter.aop.RateLimitInterceptor;
+import com.fangyanpg.ratelimiter.limit.FallbackHandler;
 import com.fangyanpg.ratelimiter.limit.LimitModeExecutor;
 import com.fangyanpg.ratelimiter.limit.RedisRateLimiter;
 import com.fangyanpg.ratelimiter.limit.mode.CountLimitMode;
@@ -29,8 +30,8 @@ public class RateLimitConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public RateLimitInterceptor rateLimitInterceptor(RedisRateLimiter redisRateLimiter){
-        return new RateLimitInterceptor(redisRateLimiter);
+    public RateLimitInterceptor rateLimitInterceptor(RedisRateLimiter redisRateLimiter, FallbackHandler fallbackHandler){
+        return new RateLimitInterceptor(redisRateLimiter, fallbackHandler);
     }
 
     @Bean

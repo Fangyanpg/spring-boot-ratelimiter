@@ -2,6 +2,8 @@ package com.fangyanpg.ratelimiter.annotation;
 
 import com.fangyanpg.ratelimiter.constants.LimitMode;
 import com.fangyanpg.ratelimiter.constants.LimitType;
+import com.fangyanpg.ratelimiter.limit.fallback.AbstractFallbackHandler;
+import com.fangyanpg.ratelimiter.limit.fallback.ThrowableFallbackHandler;
 
 import java.lang.annotation.*;
 
@@ -21,5 +23,7 @@ public @interface RateLimiter {
     String prefix() default "rateLimiter:";
 
     int timeout() default 30;
+
+    Class<? extends AbstractFallbackHandler> fallback() default ThrowableFallbackHandler.class;
 
 }
