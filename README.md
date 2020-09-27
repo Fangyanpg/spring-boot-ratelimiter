@@ -3,7 +3,7 @@
 
 目前支持计数法与令牌桶限流
 
-###快速开始
+### 快速开始
 
 项目里配置好 RedisTemplate
 
@@ -16,7 +16,7 @@
         <version>0.2.0-RELEASE</version>
     </dependency>
     
-请求限流用例（默认一秒一次）：
+### 请求限流用例（默认一秒一次）：
 
     @RateLimiter
     public void submit(int key){
@@ -26,9 +26,9 @@
         setCount(count);
         // 业务逻辑 end
     }
-其中 LimitMode支持计数、令牌桶限流两种模式，若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
+LimitMode用来指定哪种限流模式，默认为LimitMode.COUNT，若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
     
-分布式锁用例：
+### 分布式锁用例：
 
     @RateLimiter(mode = LimitMode.LOCK, fallback = MyFallbackHandler.class, key = {0})
     public void tryLock(int key){
