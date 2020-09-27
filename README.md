@@ -13,20 +13,31 @@
     <dependency>
         <groupId>com.github.fangyanpg</groupId>
         <artifactId>spring-boot-ratelimiter</artifactId>
-        <version>0.1.0-RELEASE</version>
+        <version>0.2.0-RELEASE</version>
     </dependency>
     
-分布式锁用例：
+请求限流用例（默认一秒一次）：
 
-    @RateLimiter(mode = LimitMode.LOCK)
-    public void tryLock(){
+    @RateLimiter
+    public void submit(int key){
         // 业务逻辑 start
         int count = selectCount();
         count = 1;
         setCount(count);
         // 业务逻辑 end
     }
-**注意**：超过限流配置值会抛出 RateLimiterException 异常，请自行处理。
+其中 LimitMode支持计数、令牌桶限流两种模式，若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
+    
+分布式锁用例：
+
+    @RateLimiter(mode = LimitMode.LOCK, fallback = MyFallbackHandler.class, key = {0})
+    public void tryLock(int key){
+        // 业务逻辑 start
+        int count = selectCount();
+        count = 1;
+        setCount(count);
+        // 业务逻辑 end
+    }
+**注意**：超过限流配置值会抛出 RateLimiterException 异常，请自行捕获。也可继承 AbstractFallbackHandler 实现自定义降级逻辑。
 
 
-ps：若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。

@@ -6,7 +6,7 @@
 
     <groupId>com.github.fangyanpg</groupId>
     <artifactId>spring-boot-ratelimiter</artifactId>
-    <version>0.1.1-RELEASE</version>
+    <version>0.2.0-RELEASE</version>
     <packaging>jar</packaging>
     <url>https://github.com/Fangyanpg/spring-boot-ratelimiter/tree/master</url>
     <name>spring boot ratelimiter</name>
