@@ -1,5 +1,5 @@
 # spring-boot-ratelimiter
-分布式锁、请求限流工具
+基于redis实现的分布式锁、请求限流工具
 
 目前支持计数法与令牌桶限流
 
