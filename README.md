@@ -18,7 +18,7 @@
     
 ### 请求限流用例（默认一秒一次）：
 
-    @RateLimiter
+    @RateLimiter(mode = LimitMode.TOKEN_BUCKET)
     public void submit(int key){
         // 业务逻辑 start
         int count = selectCount();
@@ -26,7 +26,7 @@
         setCount(count);
         // 业务逻辑 end
     }
-LimitMode用来指定哪种限流模式，默认为LimitMode.COUNT，若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
+其中 mode用来指定哪种限流模式，默认为LimitMode.COUNT，若想拓展自定义限流，请继承 AbstractLimitMode 抽象类，并实现其部分方法。
     
 ### 分布式锁用例：
 
