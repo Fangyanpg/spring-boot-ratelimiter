@@ -24,7 +24,7 @@ public class FallbackHandler implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return null;
+        return bean;
     }
 
     @Override
@@ -35,13 +35,13 @@ public class FallbackHandler implements BeanPostProcessor {
         return bean;
     }
 
-    public Object fallback(String param, RateLimiter rateLimiter){
+    public Object fallback(String method, String param, RateLimiter rateLimiter){
         String className = rateLimiter.fallback().toString();
         AbstractFallbackHandler handler = fallbackHandlerMap.get(className);
         if(handler == null){
             log.warn("no fallback handler instance to execute for class: {}", className);
             throw new NullPointerException("no fallback handler instance");
         }
-        return handler.fallback(param);
+        return handler.fallback(method, param);
     }
 }

@@ -5,9 +5,11 @@ import com.fangyanpg.ratelimiter.aop.RateLimitInterceptor;
 import com.fangyanpg.ratelimiter.limit.FallbackHandler;
 import com.fangyanpg.ratelimiter.limit.LimitModeExecutor;
 import com.fangyanpg.ratelimiter.limit.RedisRateLimiter;
+import com.fangyanpg.ratelimiter.limit.fallback.ThrowableFallbackHandler;
 import com.fangyanpg.ratelimiter.limit.mode.CountLimitMode;
 import com.fangyanpg.ratelimiter.limit.mode.LockLimitMode;
 import com.fangyanpg.ratelimiter.limit.mode.TokenBucketLimitMode;
+import com.fangyanpg.ratelimiter.limit.support.LimitKeyGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +32,9 @@ public class RateLimitConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public RateLimitInterceptor rateLimitInterceptor(RedisRateLimiter redisRateLimiter, FallbackHandler fallbackHandler){
-        return new RateLimitInterceptor(redisRateLimiter, fallbackHandler);
+    public RateLimitInterceptor rateLimitInterceptor(RedisRateLimiter redisRateLimiter, FallbackHandler fallbackHandler,
+                                                     LimitKeyGenerator limitKeyGenerator){
+        return new RateLimitInterceptor(redisRateLimiter, fallbackHandler, limitKeyGenerator);
     }
 
     @Bean
@@ -58,6 +61,15 @@ public class RateLimitConfig {
         return new LockLimitMode();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public ThrowableFallbackHandler throwableFallbackHandler(){
+        return new ThrowableFallbackHandler();
+    }
 
-
+    @Bean
+    @ConditionalOnMissingBean
+    public LimitKeyGenerator limitKeyGenerator(){
+        return new LimitKeyGenerator();
+    }
 }

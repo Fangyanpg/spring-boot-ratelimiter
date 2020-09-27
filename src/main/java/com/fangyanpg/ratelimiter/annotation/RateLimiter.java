@@ -22,6 +22,8 @@ public @interface RateLimiter {
 
     String prefix() default "rateLimiter:";
 
+    int[] key() default {};
+
     int timeout() default 30;
 
     Class<? extends AbstractFallbackHandler> fallback() default ThrowableFallbackHandler.class;

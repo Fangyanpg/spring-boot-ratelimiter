@@ -6,6 +6,7 @@ import com.fangyanpg.ratelimiter.constants.LimitMode;
 import com.fangyanpg.ratelimiter.constants.LimitType;
 import com.fangyanpg.ratelimiter.limit.FallbackHandler;
 import com.fangyanpg.ratelimiter.limit.RedisRateLimiter;
+import com.fangyanpg.ratelimiter.limit.support.LimitKeyGenerator;
 import com.fangyanpg.ratelimiter.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -13,6 +14,8 @@ import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author fangyanpeng
@@ -23,25 +26,24 @@ public class RateLimitInterceptor implements MethodInterceptor {
 
     private final RedisRateLimiter redisRateLimiter;
     private final FallbackHandler fallbackHandler;
+    private final LimitKeyGenerator limitKeyGenerator;
 
-    public RateLimitInterceptor(RedisRateLimiter redisRateLimiter, FallbackHandler fallbackHandler){
+    public RateLimitInterceptor(RedisRateLimiter redisRateLimiter, FallbackHandler fallbackHandler,
+                                LimitKeyGenerator limitKeyGenerator){
         this.redisRateLimiter = redisRateLimiter;
         this.fallbackHandler = fallbackHandler;
+        this.limitKeyGenerator = limitKeyGenerator;
     }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         RateLimiter rateLimiter = invocation.getMethod().getAnnotation(RateLimiter.class);
         Method method = invocation.getMethod();
-        Parameter[] parameters = method.getParameters();
-        StringBuilder rateKey = new StringBuilder(rateLimiter.prefix());
-        if(LimitType.IP.equals(rateLimiter.type()) && !LimitMode.LOCK.equals(rateLimiter.mode())){
-            String ip = WebUtils.getIP();
-            rateKey.append(ip).append(":");
-        }
-        rateKey.append(method.getName());
-        String key = rateKey.toString();
+
+        String key = limitKeyGenerator.generate(invocation, rateLimiter);
+
         Object proceed;
+
         if(redisRateLimiter.acquire(key, rateLimiter)){
             // 放行
             proceed = invocation.proceed();
@@ -49,9 +51,19 @@ public class RateLimitInterceptor implements MethodInterceptor {
             redisRateLimiter.release(key, rateLimiter);
         }else{
             // 降级处理
-            proceed = fallbackHandler.fallback(JSONUtil.toJsonStr(parameters), rateLimiter);
+            proceed = fallbackHandler.fallback(method.getName(),
+                    JSONUtil.toJsonStr(getParam(method.getParameters(), invocation.getArguments())),
+                    rateLimiter);
         }
 
         return proceed;
+    }
+
+    private Map<String, Object> getParam(Parameter[] parameters, Object[] arguments){
+        HashMap<String, Object> param = new HashMap<>();
+        for (int i = 0; i < parameters.length; i++) {
+            param.put(parameters[i].getName(), arguments[i]);
+        }
+        return param;
     }
 }

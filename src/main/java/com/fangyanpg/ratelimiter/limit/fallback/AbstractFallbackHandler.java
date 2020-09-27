@@ -5,5 +5,5 @@ package com.fangyanpg.ratelimiter.limit.fallback;
  * @since 2020/9/25
  */
 public abstract class AbstractFallbackHandler {
-    public abstract Object fallback(String str);
+    public abstract Object fallback(String method, String str);
 }
