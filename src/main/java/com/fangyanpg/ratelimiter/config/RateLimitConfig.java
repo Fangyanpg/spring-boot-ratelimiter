@@ -2,6 +2,8 @@ package com.fangyanpg.ratelimiter.config;
 
 import com.fangyanpg.ratelimiter.aop.RateLimitAnnotationAdvisor;
 import com.fangyanpg.ratelimiter.aop.RateLimitInterceptor;
+import com.fangyanpg.ratelimiter.bloom.BloomFilterHelper;
+import com.fangyanpg.ratelimiter.bloom.RedisBloomFilter;
 import com.fangyanpg.ratelimiter.limit.FallbackHandler;
 import com.fangyanpg.ratelimiter.limit.LimitModeExecutor;
 import com.fangyanpg.ratelimiter.limit.RedisRateLimiter;
@@ -20,16 +22,27 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @author fangyanpeng
  * @since 2020/7/22
  */
+@ConditionalOnClass(RedisTemplate.class)
 @Configuration
 public class RateLimitConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnClass(RedisTemplate.class)
     public RedisRateLimiter redisRateLimiter(RedisTemplate<String, String> redisTemplate, LimitModeExecutor limitModeExecutor){
         return new RedisRateLimiter(redisTemplate, limitModeExecutor);
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public RedisBloomFilter redisBloomFilter(RedisTemplate<String, String> redisTemplate, BloomFilterHelper bloomFilterHelper){
+        return new RedisBloomFilter(redisTemplate, bloomFilterHelper);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public BloomFilterHelper bloomFilterHelper(){
+        return new BloomFilterHelper(100000, 50000, 5);
+    }
     @Bean
     @ConditionalOnMissingBean
     public RateLimitInterceptor rateLimitInterceptor(RedisRateLimiter redisRateLimiter, FallbackHandler fallbackHandler,
