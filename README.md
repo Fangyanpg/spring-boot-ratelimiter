@@ -1,5 +1,6 @@
 # spring-boot-ratelimiter
-基于redis实现的分布式锁、请求限流工具
+基于redis的分布式锁、请求限流实现
+基于redis的布隆过滤器实现
 
 目前支持计数法与令牌桶限流
 
@@ -41,4 +42,24 @@
 
 **注意**：超过限流配置值会抛出 RateLimiterException 异常，请自行捕获。也可继承 AbstractFallbackHandler 实现自定义降级逻辑。
 
-
+### 布隆过滤器用例：
+    @Autowired
+    private RedisBloomFilter redisBloomFilter;
+    
+    public void filterTest(){
+        String key = "k1";
+        // 1、向布隆过滤器新增
+        redisBloomFilter.addByBloomFilter(key, String.valueOf(i));
+        
+        // 2、判断是否存在
+        for (int i = 0; i < 100; i++) {
+            if (redisBloomFilter.includeByBloomFilter(key, String.valueOf(i))){
+                // 可能存在
+                // 业务..
+            } else {
+                // 一定不存在
+                // 业务..
+            }
+        }
+    }
+    
