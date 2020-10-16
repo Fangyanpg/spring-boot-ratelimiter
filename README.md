@@ -48,6 +48,7 @@
     
     public void filterTest(){
         String key = "k1";
+        
         // 1、向布隆过滤器新增
         redisBloomFilter.addByBloomFilter(key, String.valueOf(i));
         
