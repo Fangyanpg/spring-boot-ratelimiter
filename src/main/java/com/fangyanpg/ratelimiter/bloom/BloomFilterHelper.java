@@ -31,21 +31,4 @@ public class BloomFilterHelper extends BitSetBloomFilter {
         return offset;
     }
 
-    @Autowired
-    private RedisBloomFilter redisBloomFilter;
-    public void filterTest(){
-        String key = "k1";
-        for (int i = 0; i < 100; i++) {
-            if (redisBloomFilter.includeByBloomFilter(key, String.valueOf(i))){
-                // 可能存在
-                // 业务..
-            } else {
-                // 一定不存在
-                // 业务..
-            }
-
-            // 向布隆过滤器新增
-            redisBloomFilter.addByBloomFilter(key, String.valueOf(i));
-        }
-    }
 }
