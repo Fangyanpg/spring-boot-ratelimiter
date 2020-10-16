@@ -50,7 +50,7 @@
         String key = "k1";
         
         // 1、向布隆过滤器新增
-        redisBloomFilter.addByBloomFilter(key, String.valueOf(i));
+        redisBloomFilter.addByBloomFilter(key, String.valueOf(1));
         
         // 2、判断是否存在
         for (int i = 0; i < 100; i++) {
