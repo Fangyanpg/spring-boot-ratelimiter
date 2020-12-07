@@ -31,6 +31,6 @@ public abstract class AbstractLimitMode {
 
     public abstract String scriptPath();
 
-    public abstract String execute(RedisTemplate<String, String> redisTemplate,
+    public abstract String execute(RedisTemplate<String, Object> redisTemplate,
                             String key, RateLimiter rateLimiter);
 }

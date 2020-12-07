@@ -36,7 +36,7 @@ public class LimitModeExecutor implements BeanPostProcessor {
         return bean;
     }
 
-    public String execute(RedisTemplate<String, String> redisTemplate, String key, RateLimiter rateLimiter) {
+    public String execute(RedisTemplate<String, Object> redisTemplate, String key, RateLimiter rateLimiter) {
 
         return limitModeMap.get(rateLimiter.mode()).execute(redisTemplate, key, rateLimiter);
     }

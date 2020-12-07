@@ -8,10 +8,10 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @since 2020/10/15
  */
 public class RedisBloomFilter {
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final BloomFilterHelper bloomFilterHelper;
 
-    public RedisBloomFilter(RedisTemplate<String, String> redisTemplate, BloomFilterHelper bloomFilterHelper){
+    public RedisBloomFilter(RedisTemplate<String, Object> redisTemplate, BloomFilterHelper bloomFilterHelper){
         this.redisTemplate = redisTemplate;
         this.bloomFilterHelper = bloomFilterHelper;
     }

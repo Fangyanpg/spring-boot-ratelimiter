@@ -28,13 +28,13 @@ public class RateLimitConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public RedisRateLimiter redisRateLimiter(RedisTemplate<String, String> redisTemplate, LimitModeExecutor limitModeExecutor){
+    public RedisRateLimiter redisRateLimiter(RedisTemplate<String, Object> redisTemplate, LimitModeExecutor limitModeExecutor){
         return new RedisRateLimiter(redisTemplate, limitModeExecutor);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public RedisBloomFilter redisBloomFilter(RedisTemplate<String, String> redisTemplate, BloomFilterHelper bloomFilterHelper){
+    public RedisBloomFilter redisBloomFilter(RedisTemplate<String, Object> redisTemplate, BloomFilterHelper bloomFilterHelper){
         return new RedisBloomFilter(redisTemplate, bloomFilterHelper);
     }
 

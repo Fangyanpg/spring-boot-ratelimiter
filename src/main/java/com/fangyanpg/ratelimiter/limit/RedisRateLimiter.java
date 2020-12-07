@@ -14,11 +14,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisRateLimiter {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final LimitModeExecutor limitModeExecutor;
 
-    public RedisRateLimiter(RedisTemplate<String, String> redisTemplate, LimitModeExecutor limitModeExecutor) {
+    public RedisRateLimiter(RedisTemplate<String, Object> redisTemplate, LimitModeExecutor limitModeExecutor) {
         this.redisTemplate = redisTemplate;
         this.limitModeExecutor = limitModeExecutor;
     }

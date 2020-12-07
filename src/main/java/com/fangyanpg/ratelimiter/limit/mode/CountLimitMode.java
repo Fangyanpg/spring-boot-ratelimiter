@@ -26,7 +26,7 @@ public class CountLimitMode extends AbstractLimitMode{
     }
 
     @Override
-    public String execute(RedisTemplate<String, String> redisTemplate, String key, RateLimiter rateLimiter) {
+    public String execute(RedisTemplate<String, Object> redisTemplate, String key, RateLimiter rateLimiter) {
         return redisTemplate.execute(script,
                 redisTemplate.getStringSerializer(),
                 redisTemplate.getStringSerializer(),

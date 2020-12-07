@@ -25,7 +25,7 @@ public class LockLimitMode extends AbstractLimitMode{
 
 
     @Override
-    public String execute(RedisTemplate<String, String> redisTemplate, String key, RateLimiter rateLimiter) {
+    public String execute(RedisTemplate<String, Object> redisTemplate, String key, RateLimiter rateLimiter) {
         String locked;
         long waitTime = 100L;
         long timeout = rateLimiter.timeout() << 10;

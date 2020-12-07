@@ -29,7 +29,7 @@ public class TokenBucketLimitMode extends AbstractLimitMode {
     }
 
     @Override
-    public String execute(RedisTemplate<String, String> redisTemplate, String key, RateLimiter rateLimiter) {
+    public String execute(RedisTemplate<String, Object> redisTemplate, String key, RateLimiter rateLimiter) {
         int rate = rateLimiter.limit() / rateLimiter.expire();
         rate = rate > 0 ? rate : 100;
         return redisTemplate.execute(script,
