@@ -14,7 +14,7 @@
     <dependency>
         <groupId>com.github.fangyanpg</groupId>
         <artifactId>spring-boot-ratelimiter</artifactId>
-        <version>0.3.0-RELEASE</version>
+        <version>0.3.1-RELEASE</version>
     </dependency>
     
 ### 请求限流用例（默认一秒一次）：
