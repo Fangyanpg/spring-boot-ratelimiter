@@ -40,4 +40,8 @@ public class LimitModeExecutor implements BeanPostProcessor {
 
         return limitModeMap.get(rateLimiter.mode()).execute(redisTemplate, key, rateLimiter);
     }
+
+    public void wake(RateLimiter rateLimiter){
+        limitModeMap.get(rateLimiter.mode()).wake();
+    }
 }

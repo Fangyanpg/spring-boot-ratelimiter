@@ -33,4 +33,8 @@ public abstract class AbstractLimitMode {
 
     public abstract String execute(RedisTemplate<String, Object> redisTemplate,
                             String key, RateLimiter rateLimiter);
+
+    public void wake(){
+
+    }
 }

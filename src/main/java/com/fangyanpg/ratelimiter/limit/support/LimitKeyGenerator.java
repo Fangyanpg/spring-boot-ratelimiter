@@ -37,7 +37,7 @@ public class LimitKeyGenerator {
             rateKey.append(ip).append(":");
         }
         rateKey.append(methodName);
-        if(rateLimiter.key().length>0){
+        if(rateLimiter.key().length > 0){
             Object[] arguments = invocation.getArguments();
             for (int i : rateLimiter.key()) {
                 rateKey.append("&").append(arguments[i]);

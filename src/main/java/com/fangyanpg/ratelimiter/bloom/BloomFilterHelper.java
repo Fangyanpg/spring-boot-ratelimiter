@@ -1,7 +1,6 @@
 package com.fangyanpg.ratelimiter.bloom;
 
 import cn.hutool.bloomfilter.BitSetBloomFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author fangyanpeng

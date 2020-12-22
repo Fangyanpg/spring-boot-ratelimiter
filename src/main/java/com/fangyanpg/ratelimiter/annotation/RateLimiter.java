@@ -15,7 +15,7 @@ public @interface RateLimiter {
     // 限流量
     int limit() default 1;
 
-    // 过期时间
+    // 限流时间间隔
     int expire() default 1;
 
     // 限流类型 全局|IP
@@ -25,12 +25,15 @@ public @interface RateLimiter {
     String mode() default LimitMode.COUNT;
 
     // key前缀
-    String prefix() default "rateLimiter:";
+    String prefix() default "rl:";
 
-    // 拼接方法参数坐标 （粗粒度）
+    // 拼接方法参数索引坐标
+    // 例： key = [0, 1]
+    // 如果是对象请重写toString()
     int[] key() default {};
 
-    // 请求资源超时时间
+    // 独占资源的超时时间
+    // 若请求锁资源时间超出约 timeout*2 会进入降级
     int timeout() default 30;
 
     // 自定义降级策略
