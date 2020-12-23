@@ -34,7 +34,7 @@ public @interface RateLimiter {
 
     // 独占资源的超时时间
     // 若请求锁资源时间超出约 timeout*2 会进入降级
-    int timeout() default 30;
+    int timeout() default 3;
 
     // 自定义降级策略
     Class<? extends AbstractFallbackHandler> fallback() default ThrowableFallbackHandler.class;
